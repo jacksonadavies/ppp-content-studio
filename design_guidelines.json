@@ -1,0 +1,143 @@
+{
+  "brand": {
+    "name": "Practical Poker Plus (PPP)",
+    "tagline": "The Ultimate Educational Poker Content & Replay Studio",
+    "aesthetic": "High-tech, modern, futuristic dark mode with neon lime green glowing accents, 3D hexagonal/honeycomb subtle grid patterns, and bold geometric all-caps typography."
+  },
+  "typography": {
+    "heading_font": "Outfit, Montserrat, system-ui, sans-serif",
+    "body_font": "Inter, DM Sans, system-ui, sans-serif",
+    "mono_font": "JetBrains Mono, Source Code Pro, monospace",
+    "heading_style": "font-extrabold uppercase tracking-tight",
+    "h1": "text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase",
+    "h2": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight uppercase",
+    "h3": "text-xl sm:text-2xl font-semibold uppercase tracking-wider",
+    "h4": "text-lg sm:text-xl font-medium",
+    "overline": "text-xs font-mono uppercase tracking-[0.25em] text-[#39FF14]",
+    "body": "text-base leading-relaxed text-slate-200",
+    "small": "text-sm text-slate-400"
+  },
+  "colors": {
+    "mode": "dark",
+    "background_main": "#0d0d0d",
+    "background_card": "#14161d",
+    "background_surface": "#1a1d26",
+    "background_elevated": "#222634",
+    "primary_neon": "#39FF14",
+    "primary_neon_glow": "rgba(57, 255, 20, 0.4)",
+    "primary_neon_hover": "#32e012",
+    "table_felt_dark": "#0B2B18",
+    "table_felt_border": "#1A5C36",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#94A3B8",
+    "text_muted": "#64748B",
+    "border_subtle": "rgba(255, 255, 255, 0.1)",
+    "border_neon": "#39FF14",
+    "card_suits": {
+      "spades": "#0f172a",
+      "hearts": "#ef4444",
+      "diamonds": "#3b82f6",
+      "clubs": "#10b981"
+    },
+    "chip_colors": {
+      "white_1": "#F8FAFC",
+      "red_5": "#EF4444",
+      "green_25": "#39FF14",
+      "black_100": "#1E293B",
+      "purple_500": "#A855F7"
+    }
+  },
+  "visual_enhancers": {
+    "hex_grid_bg": "background-image: radial-gradient(rgba(57, 255, 20, 0.08) 1px, transparent 0); background-size: 24px 24px;",
+    "neon_border_glow": "box-shadow: 0 0 12px rgba(57, 255, 20, 0.25), inset 0 0 12px rgba(57, 255, 20, 0.1); border: 1px solid #39FF14;",
+    "glassmorphism": "background: rgba(13, 13, 13, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1);",
+    "card_3d_shadow": "box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.7);",
+    "poker_table_felt_style": "radial-gradient(ellipse at center, #0F4022 0%, #082112 70%, #041209 100%)"
+  },
+  "grids": {
+    "dashboard_grid": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+    "studio_editor_layout": "grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[calc(100vh-5rem)]",
+    "pt4_replayer_layout": "grid grid-cols-1 lg:grid-cols-12 gap-6"
+  },
+  "layouts": {
+    "nav_header": "Fixed top bar with logo 'PRACTICAL POKER +' where '+' is highlighted in #39FF14, navigation links (Dashboard, Content Studio, PT4 Replayer, Coach Decks), active coach profile selector switcher, and Quick New Project CTA button.",
+    "coaches_list": [
+      {
+        "id": "coach-1",
+        "name": "Alex 'GTO' Vance",
+        "role": "Lead Theory & Cash Game Coach",
+        "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"
+      },
+      {
+        "id": "coach-2",
+        "name": "Elena 'Range' Rostova",
+        "role": "MTT Tournament Strategy Specialist",
+        "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"
+      },
+      {
+        "id": "coach-3",
+        "name": "Marcus 'The Solver' Brody",
+        "role": "Exploitative Play & Live Poker Coach",
+        "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"
+      },
+      {
+        "id": "coach-4",
+        "name": "David 'Nuts' Chen",
+        "role": "High Stakes Mindset & Math Coach",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"
+      }
+    ],
+    "content_studio": {
+      "input_modal": "Upload PPTX / DOCX or Paste Raw Lecture Text with AI Structure parser into modules.",
+      "layout_families": [
+        "Title Slide (Massive Glowing Header + Chip Motif)",
+        "Section Header with Neon Bar Indicator",
+        "Bullet Points with Glowing Green Checkmarks",
+        "Two-Column Strategy Comparison",
+        "Sub-Header Green Box Highlight",
+        "Poker-Table Felt Visual Content Frame",
+        "Image + Text with 3D Poker Chips",
+        "Hand Range Matrix Overlay Grid",
+        "Ev & Pot Odds Stats Highlight Box",
+        "Key Takeaways Summary Card",
+        "Quote / Pro Tip from Coach",
+        "Social Media Clip Banner Slide"
+      ],
+      "layout_switcher": "Toolbar on side/top allowing coaches to seamlessly cycle through layout families per slide."
+    },
+    "pt4_animator": {
+      "controls": "Street Action Builder (Preflop, Flop, Turn, River), Pot Size tracker, Player Stacks & Hole Cards, Dealer Button, Scrub Timeline with Play/Pause/Rewind/Speed controls, and Export MP4/GIF render simulation."
+    }
+  },
+  "motion": {
+    "framer_transitions": "Smooth scale on hover (hover:scale-[1.02]), neon glow pulses for active states, card dealing flips (rotateY), chip movement trajectories across the table canvas."
+  },
+  "accessibility": {
+    "contrast": "All text elements maintain WCAG AA 4.5:1+ contrast against dark background (#0d0d0d) and felt background.",
+    "testing_attributes": "All interactive buttons, links, inputs, dropdowns, timeline controls, and cards MUST feature explicit data-testid attributes."
+  },
+  "image_urls": {
+    "poker_table_felt": "https://images.pexels.com/photos/29261107/pexels-photo-29261107.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "poker_chips_cards": "https://images.pexels.com/photos/18341173/pexels-photo-18341173.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "cards_dark_wood": "https://images.unsplash.com/photo-1771860824036-7a9104546395?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
+    "casino_chips_stack": "https://images.pexels.com/photos/269630/pexels-photo-269630.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "poker_action_felt": "https://images.pexels.com/photos/3678384/pexels-photo-3678384.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+  },
+  "instructions_to_main_agent": [
+    "1. Replace default splash screen in App.js with branded Practical Poker Plus application.",
+    "2. Implement Coach Login / Switching flow for the 4 PPP coaches (Alex Vance, Elena Rostova, Marcus Brody, David Chen).",
+    "3. Build Dashboard with project listings (Decks and PT4 Replays), quick search, filter by coach, and creation modals.",
+    "4. Build Content Studio: document upload / text paste with auto AI slide layout generation, 10-12 branded slide layout families, slide deck previewer, slide layout switcher, slide reordering/editing, and export simulation.",
+    "5. Build PT4 Poker Replay Animator: custom interactive oval table canvas with 2 to 9 player positions, hole card picker, board card street controls (Flop/Turn/River), action timeline recorder (Fold/Check/Call/Bet/Raise), scrub timeline with smooth play animation, and export dialog for GIF/MP4.",
+    "6. Apply dark theme (#0d0d0d) with neon green (#39FF14) accents, honeycomb grid overlay, and high contrast styling across all screens.",
+    "7. Ensure dropdowns and popovers have solid dark backgrounds (no raw standard transparent backgrounds).",
+    "8. Ensure every single interactive button, input, tab, card, and modal has appropriate data-testid attributes."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Never use generic centered layouts or unstyled default gradients.",
+    "Never use raw transparent backgrounds on dropdowns, modals, or fixed headers.",
+    "Always apply hover micro-animations and explicit transition classes (avoid transition: all).",
+    "Maintain strict APCA/WCAG contrast using bright text against dark surfaces.",
+    "Ensure all interactive components have role-based data-testid attributes."
+  ]
+}
