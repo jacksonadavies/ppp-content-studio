@@ -9,7 +9,7 @@ export default function ProtectedRoute({ children }) {
     return (
       <div className="hex-bg min-h-screen flex items-center justify-center">
         <div className="animate-pulse">
-          <Logo stacked className="text-3xl opacity-70" />
+          <Logo height={48} className="opacity-70" />
         </div>
       </div>
     );

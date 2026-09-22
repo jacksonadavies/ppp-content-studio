@@ -22,6 +22,19 @@ Extracted from the client's official PowerPoint template (Dropbox) — 50 brande
 ## Personas
 - 4 PPP coaches (Alex Vance, Elena Rostova, Marcus Brody, David Chen) + a brand admin.
 
+## Implemented (2026-06 / iteration 2 — BRAND ASSET INTEGRATION)
+Corrected course: removed all self-created brand approximations and integrated the CLIENT's real assets from the working PowerPoint template + supplied packages:
+- **Real logo** (`logo-primary.png`) everywhere (nav, login, loading). No recreated wordmark.
+- **Real fonts**: Ethnocentric (hero/headings), Bebas Neue (subheads/labels), Inter + Sora + Poppins (body) via @font-face.
+- **Authentic slide plates** from the template as slide backgrounds (dark hex + green footer + vertical logo for content, cards+footer for title, full-green for section) — logo & footer are the client's baked-in art. Titles clamp so text never exceeds the page or runs over the footer/logo.
+- **Replayer** now renders on the real `table.png`, with branded avatars (Spencer, Will + roster) in the PPP green circle, real name-tag frames, dealer button, both card decks (4-Colour default + Standard toggle) + branded card back, and real chips.
+- **Exports rebuilt**: `poker_render.py` composites the real table/cards/chips/avatars/fonts so GIF + MP4 match the on-screen branded table. PPTX/PDF slide exports retained.
+
+## Known follow-ups after iteration 2
+- Coach *display names* are still the design placeholders (Alex/Elena/Marcus/David) while avatars are now real; confirm real coach identities (Spencer, Will, +2) to finalise.
+- Action/control button PNGs (Fold/Flop/Turn/River/Play/Pause…) are currently styled in-brand (Ethnocentric + green) rather than the supplied graphics due to a download naming issue — can wire the exact PNGs on request.
+- PPTX export still uses a branded reconstruction, not the client's exact .pptx masters; deeper master-slide matching is a follow-up.
+
 ## Implemented (2026-06 / iteration 1 — MVP)
 - JWT auth, 4 seeded coaches + admin, branded login with quick-demo logins.
 - Dashboard: lists decks + replays, coach filter, create/delete.

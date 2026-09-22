@@ -1,31 +1,19 @@
 import React from "react";
 
-// Branded neon-green poker chip with optional value label.
-export function Chip({ size = 20, label, className = "" }) {
+// Real PPP branded chips (client assets). Picks nearest denomination image.
+const DENOMS = [1, 5, 25, 100, 1000, 5000];
+
+export function Chip({ size = 26, value = 25, className = "" }) {
+  let denom = DENOMS[0];
+  for (const d of DENOMS) if (value >= d) denom = d;
   return (
-    <div className={`relative inline-flex items-center justify-center ${className}`} style={{ width: size, height: size }}>
-      <div
-        style={{
-          width: size,
-          height: size,
-          borderRadius: "50%",
-          background: "radial-gradient(circle at 35% 30%, #c6ff4d, #9EE60F 55%, #6f9e08 100%)",
-          border: "2px solid #0d0d0d",
-          boxShadow: "0 0 6px rgba(158,230,15,0.6), 0 2px 4px rgba(0,0,0,0.6)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: size * 0.18,
-          borderRadius: "50%",
-          border: "1.5px dashed rgba(13,13,13,0.6)",
-        }}
-      />
-      {label != null && (
-        <span className="absolute font-mono text-[9px] font-bold text-black">{label}</span>
-      )}
-    </div>
+    <img
+      src={`/brand/chips/chip-${denom}.png`}
+      alt={`${denom} chip`}
+      draggable={false}
+      className={`select-none ${className}`}
+      style={{ width: size, height: size, objectFit: "contain", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.6))" }}
+    />
   );
 }
 

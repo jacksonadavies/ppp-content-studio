@@ -21,7 +21,7 @@ export default function NavHeader() {
     <header className="sticky top-0 z-50 glass border-b border-white/10">
       <div className="max-w-[1500px] mx-auto px-5 h-16 flex items-center gap-8">
         <button data-testid="nav-logo" onClick={() => navigate("/")} className="shrink-0">
-          <Logo size="text-lg" />
+          <Logo height={26} />
         </button>
         <nav className="flex items-center gap-1">
           {links.map((l) => (

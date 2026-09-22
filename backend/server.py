@@ -35,16 +35,16 @@ logger = logging.getLogger("ppp")
 COACHES = [
     {"id": "alex-vance", "name": "Alex 'GTO' Vance", "role": "Lead Theory & Cash Game Coach",
      "email": "alex@practicalpokerplus.com", "password": "coach1234",
-     "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"},
+     "avatar": "/brand/avatars/spencer.png"},
     {"id": "elena-rostova", "name": "Elena 'Range' Rostova", "role": "MTT Tournament Strategy Specialist",
      "email": "elena@practicalpokerplus.com", "password": "coach1234",
-     "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"},
+     "avatar": "/brand/avatars/will.png"},
     {"id": "marcus-brody", "name": "Marcus 'The Solver' Brody", "role": "Exploitative & Live Poker Coach",
      "email": "marcus@practicalpokerplus.com", "password": "coach1234",
-     "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"},
+     "avatar": "/brand/avatars/austin.png"},
     {"id": "david-chen", "name": "David 'Nuts' Chen", "role": "High Stakes Mindset & Math Coach",
      "email": "david@practicalpokerplus.com", "password": "coach1234",
-     "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=srgb&fm=jpg&w=400&q=80"},
+     "avatar": "/brand/avatars/carson.png"},
 ]
 
 
@@ -79,6 +79,7 @@ class ExportMedia(BaseModel):
     fmt: str = "gif"
     fps: int = 2
     frames: List[dict]
+    deck: Optional[str] = "fourcolour"
     title: Optional[str] = "ppp-replay"
 
 
@@ -317,7 +318,7 @@ async def delete_replay(replay_id: str, user: dict = Depends(current_user)):
 @api_router.post("/replays/export")
 async def export_replay(body: ExportMedia, user: dict = Depends(current_user)):
     fmt = "mp4" if body.fmt == "mp4" else "gif"
-    data = poker_render.render_media(body.frames, fmt=fmt, fps=max(1, min(body.fps, 10)))
+    data = poker_render.render_media(body.frames, fmt=fmt, fps=max(1, min(body.fps, 10)), deck=body.deck or "fourcolour")
     safe = "".join(ch for ch in (body.title or "replay") if ch.isalnum() or ch in " -_").strip() or "replay"
     media = "video/mp4" if fmt == "mp4" else "image/gif"
     return StreamingResponse(io.BytesIO(data), media_type=media,

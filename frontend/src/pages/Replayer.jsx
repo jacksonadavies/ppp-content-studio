@@ -20,17 +20,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
 
 const NAMES = ["Hero", "Villain", "Player 3", "Player 4", "Player 5", "Player 6", "Player 7", "Player 8", "Player 9"];
+export const AVATARS = [
+  "/brand/avatars/spencer.png", "/brand/avatars/will.png", "/brand/avatars/carson.png",
+  "/brand/avatars/charlie.png", "/brand/avatars/eli.png", "/brand/avatars/caleb.png",
+  "/brand/avatars/austin.png", "/brand/avatars/benjamin.png",
+];
 const fmt = (n) => { const r = Math.round(n * 10) / 10; return Number.isInteger(r) ? String(r) : r.toFixed(1); };
 const REVEAL = { FLOP: 3, TURN: 4, RIVER: 5 };
 
 function makePlayers(n) {
   return Array.from({ length: n }).map((_, i) => ({
-    name: NAMES[i], stack: 100, cards: i === 0 ? [] : [], revealed: i === 0,
+    name: NAMES[i], stack: 100, cards: [], revealed: i === 0, avatar: AVATARS[i % AVATARS.length],
   }));
 }
 
 function defaultConfig(coachId) {
-  return { title: "New Hand Replay", coach_id: coachId, seatCount: 6, buttonSeat: 0,
+  return { title: "New Hand Replay", coach_id: coachId, seatCount: 6, buttonSeat: 0, deck: "fourcolour",
     sb: 0.5, bb: 1, players: makePlayers(6), board: [], events: [] };
 }
 
@@ -45,7 +50,7 @@ function buildFrames(cfg) {
   const { sb, bb } = blindSeats(cfg);
   const ps = cfg.players.slice(0, n).map((p, seat) => ({
     seat, name: p.name || `P${seat + 1}`, start: Number(p.stack) || 0, cards: (p.cards || []).filter(Boolean),
-    revealed: !!p.revealed, folded: false, paid: 0, street: 0,
+    revealed: !!p.revealed, avatar: p.avatar, folded: false, paid: 0, street: 0,
   }));
   ps[sb].street = Math.min(cfg.sb, ps[sb].start);
   ps[bb].street = Math.min(cfg.bb, ps[bb].start);
@@ -64,7 +69,7 @@ function buildFrames(cfg) {
       return {
         seat: p.seat, name: p.name, stack: `${fmt(remaining)} BB`,
         cards: p.folded ? [] : (p.cards.length ? p.cards : ["", ""]),
-        revealed: p.revealed, hero: p.revealed, folded: p.folded,
+        revealed: p.revealed, hero: p.revealed, folded: p.folded, avatar: p.avatar,
         dealer: p.seat === cfg.buttonSeat, pos: positionName(p.seat, n, cfg.buttonSeat),
         bet: p.street ? fmt(p.street) : "", acting: acting === p.seat, inHand: true,
       };
@@ -130,7 +135,7 @@ export default function Replayer() {
     const n = Number(nStr);
     setCfg((c) => {
       let players = c.players.slice(0, n);
-      while (players.length < n) players.push({ name: NAMES[players.length], stack: 100, cards: [], revealed: false });
+      while (players.length < n) players.push({ name: NAMES[players.length], stack: 100, cards: [], revealed: false, avatar: AVATARS[players.length % AVATARS.length] });
       return { ...c, seatCount: n, players, buttonSeat: Math.min(c.buttonSeat, n - 1), events: [] };
     });
     setCur(0);
@@ -178,7 +183,7 @@ export default function Replayer() {
   const doExport = async (format) => {
     setBusy(format);
     try {
-      const res = await api.post("/replays/export", { fmt: format, fps, frames, title: cfg.title }, { responseType: "blob" });
+      const res = await api.post("/replays/export", { fmt: format, fps, frames, deck: cfg.deck, title: cfg.title }, { responseType: "blob" });
       const url = URL.createObjectURL(res.data);
       const a = document.createElement("a");
       a.href = url; a.download = `${cfg.title || "replay"}.${format}`; a.click();
@@ -209,7 +214,7 @@ export default function Replayer() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Table + timeline */}
         <div className="lg:col-span-8">
-          <TableCanvas testid="poker-table" frame={frames[cur]} seatCount={cfg.seatCount} />
+          <TableCanvas testid="poker-table" frame={frames[cur]} seatCount={cfg.seatCount} deck={cfg.deck} />
 
           {/* transport */}
           <div className="mt-4 glass rounded-xl p-4">
@@ -272,10 +277,24 @@ export default function Replayer() {
                     </Select>
                   </div>
                 </div>
+                <div>
+                  <Label className="text-[11px] text-slate-400 uppercase">Card deck</Label>
+                  <div className="flex gap-2 mt-1">
+                    {[["fourcolour", "4-Colour"], ["standard", "Standard"]].map(([v, l]) => (
+                      <button key={v} data-testid={`deck-${v}`} onClick={() => update({ deck: v })}
+                        className={`flex-1 h-9 rounded-md text-xs font-subhead tracking-wide border transition-colors ${cfg.deck === v ? "bg-ppp-green text-black border-ppp-green" : "bg-ppp-surface text-slate-300 border-white/10 hover:border-ppp-green/50"}`}>{l}</button>
+                    ))}
+                  </div>
+                </div>
                 <div className="space-y-2">
                   {cfg.players.map((p, i) => (
                     <div key={i} className="flex items-center gap-2 bg-ppp-surface rounded-lg p-2 border border-white/5">
-                      <span className="text-[10px] font-mono text-ppp-green w-8">{positionName(i, cfg.seatCount, cfg.buttonSeat)}</span>
+                      <button data-testid={`pavatar-${i}`} title="Change avatar"
+                        onClick={() => updatePlayer(i, { avatar: AVATARS[(AVATARS.indexOf(p.avatar) + 1) % AVATARS.length] })}
+                        className="w-8 h-8 rounded-full overflow-hidden shrink-0" style={{ boxShadow: "0 0 0 1.5px rgba(143,232,10,0.5)" }}>
+                        <img src={p.avatar} alt="" className="w-full h-full object-cover" />
+                      </button>
+                      <span className="text-[10px] font-body text-ppp-green w-8">{positionName(i, cfg.seatCount, cfg.buttonSeat)}</span>
                       <Input data-testid={`pname-${i}`} value={p.name} onChange={(e) => updatePlayer(i, { name: e.target.value })} className="h-8 bg-ppp-panel border-white/10 text-white text-xs flex-1" />
                       <Input data-testid={`pstack-${i}`} type="number" value={p.stack} onChange={(e) => updatePlayer(i, { stack: Number(e.target.value) })} className="h-8 w-16 bg-ppp-panel border-white/10 text-white text-xs" />
                       <button data-testid={`pcards-${i}`} onClick={() => openPicker({ kind: "player", seat: i }, 2, p.cards)} className="flex gap-0.5 items-center">

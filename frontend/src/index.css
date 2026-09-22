@@ -1,68 +1,104 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ---- PPP Brand fonts (supplied by client) ---- */
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('./fonts/Ethnocentric-Rg.otf') format('opentype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('./fonts/Ethnocentric-Rg-Italic.otf') format('opentype');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('./fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-Italic-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
-  --ppp-green: #9EE60F;
-  --ppp-green-dim: #7fb80b;
-  --ppp-dark: #0d0d0d;
-  --ppp-panel: #14161d;
-  --ppp-surface: #1a1d26;
+  --ppp-green: #8FE80A;
+  --ppp-green-dim: #74bd08;
+  --ppp-dark: #0a0a0a;
+  --ppp-panel: #141414;
+  --ppp-surface: #1b1b1b;
   --radius: 0.5rem;
 }
 
 * { border-color: rgba(255, 255, 255, 0.08); }
-
 html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  background-color: #0d0d0d;
+  background-color: var(--ppp-dark);
   color: #fff;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Sora', 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection { background: var(--ppp-green); color: #0d0d0d; }
+::selection { background: var(--ppp-green); color: #0a0a0a; }
 
-/* Brand hex / honeycomb background */
+/* Real PPP hex/honeycomb texture as the app background */
 .hex-bg {
-  background-color: #0d0d0d;
-  background-image:
-    radial-gradient(circle at 50% 0%, rgba(158, 230, 15, 0.06), transparent 55%),
-    url("data:image/svg+xml,%3Csvg width='56' height='100' viewBox='0 0 56 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 0l28 16v33L28 65 0 49V16z' fill='none' stroke='%23ffffff' stroke-opacity='0.04' stroke-width='1.5'/%3E%3Cpath d='M28 66l28 16v33L28 131 0 115V82z' fill='none' stroke='%23ffffff' stroke-opacity='0.04' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-size: auto, 56px 100px;
+  background-color: var(--ppp-dark);
+  background-image: linear-gradient(rgba(10,10,10,0.82), rgba(10,10,10,0.92)), url('./assets/bg-hex.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
 }
+
+.font-display { font-family: 'Ethnocentric', 'Sora', sans-serif; }
+.font-subhead { font-family: 'Bebas Neue', 'Sora', sans-serif; letter-spacing: 0.02em; }
+.font-body { font-family: 'Sora', 'Inter', sans-serif; }
+.font-mono2 { font-family: 'JetBrains Mono', monospace; }
 
 .neon-border {
   border: 1px solid var(--ppp-green);
-  box-shadow: 0 0 14px rgba(158, 230, 15, 0.22), inset 0 0 14px rgba(158, 230, 15, 0.06);
+  box-shadow: 0 0 14px rgba(143, 232, 10, 0.22), inset 0 0 14px rgba(143, 232, 10, 0.06);
 }
-.neon-text { text-shadow: 0 0 18px rgba(158, 230, 15, 0.55); }
+.neon-text { text-shadow: 0 0 22px rgba(143, 232, 10, 0.6); }
 .glass {
-  background: rgba(16, 18, 24, 0.85);
+  background: rgba(15, 15, 15, 0.86);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
-
-.font-display { font-family: 'Outfit', system-ui, sans-serif; }
-.font-mono2 { font-family: 'JetBrains Mono', monospace; }
-
-.card-shadow { box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.8); }
+.card-shadow { box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.85); }
 
 @keyframes glowpulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(158, 230, 15, 0.5); }
-  50% { box-shadow: 0 0 0 6px rgba(158, 230, 15, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(143, 232, 10, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(143, 232, 10, 0); }
 }
 .acting-glow { animation: glowpulse 1.4s ease-out infinite; }
 
-/* dropdown / popover solid backgrounds */
-[data-radix-popper-content-wrapper] > * { background-color: #14161d !important; }
+[data-radix-popper-content-wrapper] > * { background-color: #141414 !important; }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #0d0d0d; }
-::-webkit-scrollbar-thumb { background: #262b36; border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: #333a48; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #262626; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #333; }

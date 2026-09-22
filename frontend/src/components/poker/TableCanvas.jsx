@@ -4,68 +4,79 @@ import { PlayingCard } from "./PlayingCard";
 import { Chip } from "./Chip";
 
 function seatPos(i, n) {
-  const ang = Math.PI / 2 + (2 * Math.PI * i) / n; // seat 0 bottom-center
-  return { x: 50 + 41 * Math.cos(ang), y: 50 + 39 * Math.sin(ang) };
+  const ang = Math.PI / 2 + (2 * Math.PI * i) / n; // seat 0 bottom-centre
+  return { x: 50 + 40 * Math.cos(ang), y: 47 + 33 * Math.sin(ang) };
 }
 
-export function TableCanvas({ frame, seatCount, testid }) {
+export function TableCanvas({ frame, seatCount, deck = "fourcolour", testid }) {
   const players = frame?.players || [];
   const board = frame?.board || [];
   return (
-    <div data-testid={testid} className="relative w-full rounded-2xl overflow-hidden border border-white/10 card-shadow" style={{ aspectRatio: "16 / 9", background: "#0d0d0d" }}>
-      {/* logo */}
-      <div className="absolute left-4 top-3 font-display font-extrabold text-white text-sm z-20">PRACTICAL POKER <span className="text-ppp-green">+</span></div>
-
-      {/* felt */}
-      <div className="absolute" style={{ left: "8%", top: "12%", right: "8%", bottom: "16%" }}>
-        <div className="w-full h-full rounded-[50%]" style={{ background: "radial-gradient(ellipse at center, #0f4022 0%, #082112 70%, #041209 100%)", border: "3px solid #9EE60F", boxShadow: "0 0 40px rgba(158,230,15,0.2), inset 0 0 60px rgba(0,0,0,0.6)" }} />
-      </div>
-
-      {/* street + board + pot */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10 pointer-events-none">
-        {frame?.street && <div className="text-ppp-green font-mono text-xs uppercase tracking-[0.3em]">{frame.street}</div>}
-        <div className="flex gap-1.5 min-h-[48px] items-center">
+    <div
+      data-testid={testid}
+      className="relative w-full rounded-2xl overflow-hidden card-shadow"
+      style={{ aspectRatio: "16 / 9", backgroundImage: "url('/brand/table/table.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+    >
+      {/* board + pot at felt centre */}
+      <div className="absolute left-1/2 z-10 flex flex-col items-center gap-2" style={{ top: "38%", transform: "translate(-50%,-50%)" }}>
+        {frame?.street && <div className="font-subhead text-ppp-green text-lg tracking-[0.35em] uppercase" style={{ textShadow: "0 0 10px rgba(143,232,10,0.6)" }}>{frame.street}</div>}
+        <div className="flex gap-1.5 min-h-[56px] items-center">
           <AnimatePresence>
             {board.map((c, i) => (
-              <motion.div key={c + i} initial={{ opacity: 0, y: -14, rotateY: 90 }} animate={{ opacity: 1, y: 0, rotateY: 0 }} transition={{ delay: i * 0.05 }}>
-                <PlayingCard card={c} size="sm" />
+              <motion.div key={c + i} initial={{ opacity: 0, y: -16, rotateY: 90 }} animate={{ opacity: 1, y: 0, rotateY: 0 }} transition={{ delay: i * 0.06 }}>
+                <PlayingCard card={c} size="md" deck={deck} />
               </motion.div>
             ))}
           </AnimatePresence>
         </div>
-        {frame?.pot != null && (
-          <div className="flex items-center gap-1.5 bg-black/50 rounded-full px-3 py-1">
-            <Chip size={16} /> <span className="text-white text-xs font-mono font-bold">POT {frame.pot}</span>
-          </div>
-        )}
       </div>
+      {frame?.pot != null && (
+        <div className="absolute left-1/2 z-10 flex items-center gap-1.5 bg-black/55 rounded-full px-3 py-1 border border-ppp-green/40" style={{ top: "58%", transform: "translate(-50%,-50%)" }}>
+          <Chip size={18} value={100} /> <span className="text-white text-xs font-subhead tracking-wider">POT {frame.pot}</span>
+        </div>
+      )}
 
       {/* players */}
       {players.map((p) => {
         const { x, y } = seatPos(p.seat, seatCount);
-        const toCenterX = 50 - x, toCenterY = 50 - y;
+        const toCx = 50 - x, toCy = 47 - y;
         return (
-          <div key={p.seat} className="absolute z-10" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
-            {/* hole cards */}
-            {!p.folded && (p.cards?.length || p.inHand) && (
-              <div className="flex justify-center gap-0.5 mb-1">
-                {(p.cards && p.cards.length ? p.cards : ["", ""]).map((c, k) => (
-                  <PlayingCard key={k} card={c} faceDown={!p.revealed} size="xs" />
-                ))}
+          <div key={p.seat} className="absolute z-20" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
+            <div className={`flex flex-col items-center ${p.folded ? "opacity-40 grayscale" : ""}`}>
+              {/* hole cards behind/above avatar */}
+              {!p.folded && (p.cards?.length || p.inHand) && (
+                <div className="flex justify-center -space-x-2 mb-[-14px] z-0">
+                  {(p.cards && p.cards.length ? p.cards : ["", ""]).map((c, k) => (
+                    <PlayingCard key={k} card={c} faceDown={!p.revealed} size="xs" deck={deck} className={k === 0 ? "-rotate-6" : "rotate-6"} />
+                  ))}
+                </div>
+              )}
+              {/* avatar in PPP circle */}
+              <div className="relative z-10">
+                <img
+                  src={p.avatar || "/brand/avatars/carson.png"}
+                  alt=""
+                  className={`w-14 h-14 rounded-full object-cover ${p.acting ? "acting-glow" : ""}`}
+                  style={{ boxShadow: p.acting ? "0 0 0 2px #8FE80A" : "0 0 0 2px rgba(143,232,10,0.35)" }}
+                />
+                {p.dealer && <img src="/brand/frames/dealer.png" alt="D" className="absolute -right-3 -bottom-1 w-6 h-6 object-contain" />}
               </div>
-            )}
-            <motion.div animate={p.acting ? { scale: 1.04 } : { scale: 1 }}
-              className={`rounded-lg px-2.5 py-1.5 min-w-[92px] text-center border ${p.acting ? "border-ppp-green acting-glow bg-[#141a12]" : "border-white/15 bg-ppp-panel"} ${p.folded ? "opacity-45" : ""}`}>
-              <div className="text-white text-[11px] font-semibold truncate">{p.name}</div>
-              <div className={`text-[10px] font-mono ${p.folded ? "text-slate-500" : "text-ppp-green"}`}>{p.stack}</div>
-            </motion.div>
-            {p.dealer && <div className="absolute -right-2 -top-1 w-5 h-5 rounded-full bg-white text-black text-[10px] font-bold flex items-center justify-center border border-black/40">D</div>}
-            {p.pos && <div className="absolute -left-1 -bottom-1 text-[8px] font-mono bg-black/70 text-ppp-green px-1 rounded">{p.pos}</div>}
-            {/* bet chips toward center */}
+              {/* name + stack frame */}
+              <div className="relative mt-[-4px]" style={{ width: 128, height: 34 }}>
+                <img src="/brand/frames/nameframe.png" alt="" className="absolute inset-0 w-full h-full" style={{ objectFit: "fill" }} />
+                <div className="absolute inset-0 flex flex-col justify-center pl-3 pr-2">
+                  <div className="text-white font-subhead text-[13px] leading-none tracking-wide truncate">{p.name}</div>
+                  <div className={`text-[10px] leading-none font-body ${p.folded ? "text-slate-500" : "text-ppp-green"}`}>{p.stack}</div>
+                </div>
+                {p.pos && <div className="absolute -top-2 right-1 text-[8px] font-body bg-black/80 text-ppp-green px-1 rounded">{p.pos}</div>}
+              </div>
+            </div>
+            {/* bet chips toward centre */}
             {p.bet ? (
-              <div className="absolute z-20" style={{ left: `calc(50% + ${toCenterX * 0.9}px)`, top: `calc(50% + ${toCenterY * 0.9}px)`, transform: "translate(-50%,-50%)" }}>
-                <div className="flex items-center gap-1 bg-black/60 rounded-full px-1.5 py-0.5">
-                  <Chip size={14} /><span className="text-white text-[10px] font-mono font-bold">{p.bet}</span>
+              <div className="absolute z-30" style={{ left: `calc(50% + ${toCx * 1.0}px)`, top: `calc(50% + ${toCy * 1.0}px)`, transform: "translate(-50%,-50%)" }}>
+                <div className="flex items-center gap-1 bg-black/60 rounded-full pl-0.5 pr-2 py-0.5">
+                  <Chip size={18} value={Number(String(p.bet).replace(/[^0-9.]/g, "")) || 25} />
+                  <span className="text-white text-[10px] font-subhead tracking-wide">{p.bet}</span>
                 </div>
               </div>
             ) : null}
@@ -75,9 +86,9 @@ export function TableCanvas({ frame, seatCount, testid }) {
 
       {/* action label */}
       {frame?.label && (
-        <div className="absolute left-0 right-0 bottom-0 bg-ppp-panel/95 border-t border-ppp-green/40 px-4 py-2 z-20 flex items-center gap-2">
+        <div className="absolute left-0 right-0 bottom-0 bg-black/85 border-t border-ppp-green/50 px-4 py-2 z-40 flex items-center gap-2">
           <div className="w-1.5 h-4 bg-ppp-green rounded-sm" />
-          <span className="text-white text-sm font-medium">{frame.label}</span>
+          <span className="text-white text-sm font-body">{frame.label}</span>
         </div>
       )}
     </div>

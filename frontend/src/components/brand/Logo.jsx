@@ -1,21 +1,15 @@
 import React from "react";
 
-// Typographic recreation of the PRACTICAL POKER + wordmark.
-export function Logo({ className = "", size = "text-xl", stacked = false }) {
-  if (stacked) {
-    return (
-      <div className={`font-display font-extrabold leading-[0.85] tracking-tight ${className}`}>
-        <div className="text-white">PRACTICAL</div>
-        <div className="text-white">
-          POKER <span className="text-ppp-green neon-text">+</span>
-        </div>
-      </div>
-    );
-  }
+// Official PPP logo (client-supplied). Never recreate typographically.
+export function Logo({ className = "", height = 28, alt = "Practical Poker Plus" }) {
   return (
-    <div className={`font-display font-extrabold tracking-tight text-white ${size} ${className}`}>
-      PRACTICAL POKER <span className="text-ppp-green neon-text">+</span>
-    </div>
+    <img
+      src="/brand/logo-primary.png"
+      alt={alt}
+      draggable={false}
+      style={{ height, width: "auto" }}
+      className={`select-none ${className}`}
+    />
   );
 }
 

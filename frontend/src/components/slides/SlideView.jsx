@@ -41,51 +41,44 @@ export function SlideFrame({ children, className = "", testid }) {
 
 function Logo() {
   return (
-    <div className="absolute left-14 bottom-12 font-display font-extrabold text-white" style={{ fontSize: 22 }}>
-      PRACTICAL POKER <span className="text-ppp-green">+</span>
-    </div>
+    <img src="/brand/logo-primary.png" alt="Practical Poker Plus"
+      className="absolute left-14 bottom-11 select-none" style={{ height: 34, width: "auto", opacity: 0.95 }} />
   );
 }
 
-const bg = { width: BW, height: BH, backgroundColor: "#0d0d0d", position: "relative", overflow: "hidden" };
+const bg = { width: BW, height: BH, backgroundColor: "#0a0a0a", position: "relative", overflow: "hidden" };
 const hex = {
-  position: "absolute", inset: 0, opacity: 0.5,
-  backgroundImage:
-    "url(\"data:image/svg+xml,%3Csvg width='56' height='100' viewBox='0 0 56 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 0l28 16v33L28 65 0 49V16z' fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1.5'/%3E%3Cpath d='M28 66l28 16v33L28 131 0 115V82z' fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1.5'/%3E%3C/svg%3E\")",
-  backgroundSize: "56px 100px",
+  position: "absolute", inset: 0, opacity: 0.7,
+  backgroundImage: "url('/brand/bg-hex.jpg')", backgroundSize: "cover", backgroundPosition: "center",
 };
 
 export function SlideBody({ slide }) {
   const s = slide || {};
   const layout = s.layout || "bullets";
-  const Title = ({ size = 64, mb = 0 }) => (
-    <div className="font-display font-extrabold uppercase text-white leading-[0.95]" style={{ fontSize: size, marginBottom: mb }}>
+  const Title = ({ size = 64, mb = 0, clamp = 3 }) => (
+    <div className="font-display uppercase text-white leading-[1.02]"
+      style={{ fontSize: size, marginBottom: mb, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: clamp, WebkitBoxOrient: "vertical" }}>
       {s.title}
     </div>
   );
 
+  const plate = layout === "title" ? "/brand/bg-title-cards.jpg" : layout === "section" ? "/brand/bg-green.jpg" : "/brand/bg-content.jpg";
+  const dark = layout !== "section";
   return (
-    <div style={bg}>
-      <div style={hex} />
-      <div style={{ position: "absolute", top: 0, right: 0, width: 520, height: 520, background: "radial-gradient(circle at 70% 20%, rgba(158,230,15,0.10), transparent 60%)" }} />
+    <div style={{ width: BW, height: BH, position: "relative", overflow: "hidden", backgroundImage: `url('${plate}')`, backgroundSize: "cover", backgroundPosition: "center" }}>
 
       {layout === "title" && (
-        <div className="absolute inset-0 flex flex-col justify-center px-20">
-          <Title size={92} />
-          {s.subtitle && <div className="text-ppp-green font-display font-bold uppercase mt-4" style={{ fontSize: 36 }}>{s.subtitle}</div>}
-          <div className="absolute right-16 bottom-24 rotate-6">
-            <div className="flex">
-              <PlayingCard card={s?.motif === "cards" ? "Ah" : "As"} size="lg" className="scale-[1.8] origin-bottom" />
-            </div>
-          </div>
+        <div className="absolute inset-0 flex flex-col justify-center" style={{ paddingLeft: 560, paddingRight: 90, paddingBottom: 90 }}>
+          <Title size={82} />
+          {s.subtitle && <div className="text-ppp-green font-subhead uppercase tracking-wide mt-5" style={{ fontSize: 46 }}>{s.subtitle}</div>}
         </div>
       )}
 
       {layout === "section" && (
-        <div className="absolute inset-0 flex flex-col justify-center px-20">
-          {s.label && <div className="text-ppp-green font-mono uppercase tracking-[0.3em] mb-4" style={{ fontSize: 20 }}>{s.label}</div>}
-          <Title size={76} />
-          <div className="h-1.5 w-40 bg-ppp-green mt-8 rounded-full" />
+        <div className="absolute inset-0 flex flex-col justify-center px-24" style={{ paddingBottom: 60 }}>
+          {s.label && <div className="text-black/70 font-subhead uppercase tracking-[0.22em] mb-3" style={{ fontSize: 28 }}>{s.label}</div>}
+          <div className="font-display uppercase text-black leading-[1.02]" style={{ fontSize: 74, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" }}>{s.title}</div>
+          <div className="h-2 w-44 bg-black mt-8 rounded-full" />
         </div>
       )}
 
@@ -183,7 +176,6 @@ export function SlideBody({ slide }) {
         </div>
       )}
 
-      <Logo />
     </div>
   );
 }

@@ -49,7 +49,7 @@ export default function Login() {
             <PlayingCard faceDown size="lg" className="-ml-6 rotate-12" />
           </div>
         </div>
-        <Logo stacked className="text-5xl" />
+        <Logo height={72} />
         <div>
           <div className="text-ppp-green font-mono text-xs uppercase tracking-[0.3em] mb-4">Brand Content Studio</div>
           <h1 className="font-display text-5xl font-extrabold leading-[0.95] uppercase max-w-md">
@@ -71,7 +71,7 @@ export default function Login() {
           transition={{ duration: 0.5 }}
           className="w-full max-w-md glass rounded-2xl p-8 card-shadow"
         >
-          <div className="lg:hidden mb-6"><Logo size="text-2xl" /></div>
+          <div className="lg:hidden mb-6"><Logo height={40} /></div>
           <h2 className="font-display text-2xl font-bold uppercase tracking-tight">Coach Sign In</h2>
           <p className="text-slate-400 text-sm mt-1">Access your decks and replay projects.</p>
 
