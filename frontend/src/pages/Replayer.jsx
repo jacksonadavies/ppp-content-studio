@@ -149,7 +149,6 @@ export default function Replayer() {
   const [aSeat, setASeat] = useState(0);
   const [aType, setAType] = useState("raise");
   const [aAmt, setAAmt] = useState(3);
-  const activePlayers = cfg.players.map((p, i) => ({ ...p, seat: i })).filter((p) => !frames[frames.length - 1]?.players?.find((fp) => fp.seat === p.seat)?.folded);
 
   const addAction = () => {
     const ev = { type: "action", seat: Number(aSeat), action: aType };

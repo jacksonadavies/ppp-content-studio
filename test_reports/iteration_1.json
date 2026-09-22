@@ -1,0 +1,31 @@
+{
+  "summary": "Full backend + frontend E2E test of Practical Poker Plus. Backend: 17/17 pytest cases passed (auth, coach logins, admin login, /auth/me bearer, coaches list, deck generate via Claude Sonnet 4.6 with varied layouts, list/get/patch deck title, layout swap, PPTX & PDF export producing valid files, upload .txt flow, replay create/get, GIF & MP4 export). Frontend: Login (valid + quick logins + invalid error), Dashboard, Content Studio paste-generate flow (AI produced 9 slides, 10 layouts available), layout switch, deck title save, PPTX+PDF download from browser, Replayer full flow (seat count change, hero hole cards via CardPicker, board picker with used-card disabling verified, deal flop/turn, add bet action, playback controls, save, reload from dashboard restores config, GIF+MP4 exports downloaded).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Login", "issues": ["React console warning: 'Cannot update a component while rendering a different component' triggered by `if (user) navigate('/')` called during Login render (Login.jsx line 21). Should be wrapped in useEffect or use <Navigate/>. Functional but noisy."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_ppp_backend.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Minor: Fix Login.jsx line 21 - move `if (user) navigate('/')` into useEffect or replace with <Navigate to='/'/> to silence React setState-in-render warning.",
+    "Minor cleanup: `activePlayers` variable in Replayer.jsx is computed but never used."
+  ],
+  "critical_code_review_comments": [
+    "Login.jsx calls navigate() synchronously during render (line 21) — causes React warning. Wrap in useEffect.",
+    "Cookie set with samesite='none' and secure=True — correct for cross-origin, but relies on HTTPS (fine on preview URL).",
+    "seed_admin/coaches on startup: admin block resets password if mismatched but coaches always overwrite metadata (not password) — password rotation would require manual reseed. Acceptable for MVP.",
+    "MongoDB _id properly excluded from responses via projections {'_id': 0}. bson.ObjectId not leaked.",
+    "No rate limiting / brute force lockout on /auth/login — playbook mentions 5-fail lockout expected; not implemented. Not a blocker for MVP but flag for hardening.",
+    "server.py is 370 lines — still under the 700-line split threshold; fine."
+  ],
+  "updated_files": ["/app/backend/tests/test_ppp_backend.py"],
+  "success_rate": {"backend": "100% (17/17)", "frontend": "100% of tested flows"},
+  "test_credentials": "alex@practicalpokerplus.com / coach1234 (and elena/marcus/david, admin brand@ / PPPadmin2025!)",
+  "seed_data_creation": "Created TEST_-prefixed decks (TEST_ E2E Deck, TEST_ Pot Odds Basics, TEST_ Updated Title, TEST_ Uploaded Lesson) and TEST_ E2E Replay / TEST_ Replay in MongoDB. Not cleaned up — safe to purge with prefix TEST_.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All coach/admin credentials in /app/memory/test_credentials.md. Test file at /app/backend/tests/test_ppp_backend.py runs full E2E in ~60s (AI deck generation is the slow bit). Frontend has data-testids on all major interactive elements; CardPicker uses pick-<Card> testids (e.g. pick-As). No blocking issues; only the Login setState-in-render warning needs a cosmetic fix."
+}

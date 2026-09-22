@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -18,7 +18,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  if (user) navigate("/");
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user, navigate]);
 
   const submit = async (e, creds) => {
     e?.preventDefault?.();
